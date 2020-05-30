@@ -4,7 +4,6 @@
   <requires lib="gtk+" version="3.20"/>
   <template class="DataUsageAboutWindow" parent="GtkAboutDialog">
     <property name="can_focus">False</property>
-    <property name="icon">leo.png</property>
     <property name="type_hint">dialog</property>
     <property name="program_name">DataUsage</property>
     <property name="copyright" translatable="yes">Copyright (c) 2020 Allison Kosy</property>

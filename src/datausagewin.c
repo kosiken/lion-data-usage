@@ -16,9 +16,12 @@ struct _DataUsageAppWindowPrivate
     GtkWidget *label2;
     GtkWidget *sent, *recieved;
     GtkWidget *grid;
-    
 };
+static void item_clicked(GtkButton *button, gpointer user_data)
+{
+    item_clicked_app();
 
+}
 DataUsageAppWindow *data_usage_app_window_new(DataUsageApp *app)
 {
     return g_object_new(DATA_USAGE_APP_WINDOW_TYPE, "application", app, NULL);
@@ -32,15 +35,14 @@ static void data_usage_app_window_init(DataUsageAppWindow *win)
     DataUsageAppWindowPrivate *priv;
     gchar *basename;
     GtkWidget *sent, *grid, *recieved, *label, *label2;
- g_signal_connect(G_OBJECT(btn), "clicked", 
-      G_CALLBACK(button_clicked), NULL);
+  
 };
 
 static void data_usage_app_window_class_init(DataUsageAppWindowClass *class)
 {
     gtk_widget_class_set_template_from_resource(GTK_WIDGET_CLASS(class),
                                                 "/com/krc/datausageapp/window.ui");
-
+    gtk_widget_class_bind_template_callback(GTK_WIDGET_CLASS(class), item_clicked);
     gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(class), DataUsageAppWindow, content_box);
 }
 

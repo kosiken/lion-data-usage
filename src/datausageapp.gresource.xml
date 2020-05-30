@@ -2,5 +2,6 @@
 <gresources>
   <gresource prefix="/com/krc/datausageapp">
     <file preprocess="xml-stripblanks">window.ui</file>
+    <file preprocess="xml-stripblanks">about.ui</file>
   </gresource>
 </gresources>

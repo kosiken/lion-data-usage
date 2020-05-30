@@ -3,7 +3,7 @@
 #include "datausageapp.h"
 #include "datausagewin.h"
 #include "dataUsage.h"
-
+#include "datausageaboutwin.h"
 struct _DataUsageApp
 {
     GtkApplication parent;
@@ -58,6 +58,10 @@ DataUsageApp *data_usage_app_new(void)
     G_APPLICATION_HANDLES_OPEN, NULL);
     
 };
-void item_clicked() {
-    
+void item_clicked_app() {
+     GtkBuilder *builder;
+  DataUsageAboutWindow *window;
+  const gchar *title = "lion";
+window = data_usage_about_window_new(title);
+gtk_window_present(GTK_WINDOW(window));
 }

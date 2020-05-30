@@ -6,5 +6,5 @@
 G_DECLARE_FINAL_TYPE (DataUsageApp, data_usage_app, DATA_USAGE, APP, GtkApplication)
 
 DataUsageApp *data_usage_app_new(void);
-void item_clicked(void);
+void item_clicked_app(void);
 #endif
