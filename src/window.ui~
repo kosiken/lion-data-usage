@@ -5,7 +5,7 @@
   <object class="GtkImage" id="image_gh">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="resource">github.svg</property>
+    <property name="pixbuf">resources/github.svg</property>
   </object>
   <template class="DataUsageAppWindow" parent="GtkApplicationWindow">
     <property name="can_focus">False</property>
