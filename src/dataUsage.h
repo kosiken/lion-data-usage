@@ -1,5 +1,5 @@
 #ifndef _LDATA_H_
-#define _LDATA_FILE_H_
+#define _LDATA_H_
 
 #include <stdint.h>
 

@@ -2,6 +2,8 @@
 #include <gtk/gtk.h>
 #include "datausageapp.h"
 #include "datausagewin.h"
+#include "dataUsage.h"
+
 
 struct _DataUsageAppWindow
 {
@@ -12,14 +14,19 @@ typedef struct _DataUsageAppWindowPrivate DataUsageAppWindowPrivate;
 struct _DataUsageAppWindowPrivate
 {
     GtkWidget *content_box;
-    GtkWidget *label;
-    GtkWidget *label2;
+    GtkWidget *level;
     GtkWidget *sent, *recieved;
-    GtkWidget *grid;
+    GtkWidget *balance;
 };
 static void item_clicked(GtkButton *button, gpointer user_data)
 {
     item_clicked_app();
+
+}
+
+
+static void full_clicked(GtkMenuItem *item, gpointer user_data) {
+    open_full_window();
 
 }
 DataUsageAppWindow *data_usage_app_window_new(DataUsageApp *app)
@@ -43,20 +50,30 @@ static void data_usage_app_window_class_init(DataUsageAppWindowClass *class)
     gtk_widget_class_set_template_from_resource(GTK_WIDGET_CLASS(class),
                                                 "/com/krc/datausageapp/window.ui");
     gtk_widget_class_bind_template_callback(GTK_WIDGET_CLASS(class), item_clicked);
-    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(class), DataUsageAppWindow, content_box);
+    gtk_widget_class_bind_template_callback(GTK_WIDGET_CLASS(class),full_clicked);
+   gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(class), DataUsageAppWindow, balance);
+gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(class), DataUsageAppWindow, recieved);
+gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(class), DataUsageAppWindow, sent);
 }
 
-void data_usage_app_window_open(DataUsageAppWindow *appWindow)
+void data_usage_app_window_open(DataUsageAppWindow *appWindow, uint64_t max)
 {
     DataUsageAppWindowPrivate *priv;
-    gchar *basename;
-
-    GtkLabel *sentlabel, *recievedlabel;
-    GtkWidget *sent;
+    char buffer[10];
+    to_human_readable(max, buffer);
     priv = data_usage_app_window_get_instance_private(appWindow);
+     gtk_label_set_text((GtkLabel*)priv->balance, buffer);
 
-    sent = gtk_label_new("Recieved");
-    //  gtk_container_add (GTK_CONTAINER (a), sent);
-    exit(0);
-    gtk_widget_show(sent);
+  
 }
+void data_usage_app_window_update_wids(DataUsageAppWindow *win,  uint64_t *values){
+    DataUsageAppWindowPrivate *priv;
+    priv = data_usage_app_window_get_instance_private(win);
+    char buffer[10];
+    to_human_readable(*values, buffer);
+
+    gtk_label_set_text((GtkLabel*)priv->sent, buffer);
+    to_human_readable(*(values+1), buffer);
+    gtk_label_set_text((GtkLabel*)priv->recieved, buffer);
+}
+

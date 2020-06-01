@@ -278,7 +278,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLevelBar" id="level_bar">
+                      <object class="GtkLevelBar">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>

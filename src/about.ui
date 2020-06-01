@@ -15,6 +15,7 @@
     <property name="documenters">Allison Kosy</property>
     <property name="logo">leo.png</property>
     <property name="license_type">mit-x11</property>
+    <signal name="close" handler="data_win_close" swapped="no"/>
     <child type="titlebar">
       <placeholder/>
     </child>
