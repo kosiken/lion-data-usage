@@ -24,9 +24,9 @@ data_usage_app_init(DataUsageApp *app)
 {
 
     DataUsageAppPrivate *priv;
-// GApplication *application = g_application_new("com.krc.datausageapp", G_APPLICATION_NON_UNIQUE );
-// gboolean g = g_application_register(application, NULL, NULL);
-// g_print("%d", g);
+    // GApplication *application = g_application_new("com.krc.datausageapp", G_APPLICATION_NON_UNIQUE );
+    // gboolean g = g_application_register(application, NULL, NULL);
+    // g_print("%d", g);
     priv = data_usage_app_get_instance_private(app);
     uint64_t m = MAX_DATA_USE;
     set_max(m, priv);
@@ -75,7 +75,6 @@ data_usage_app_class_init(DataUsageAppClass *class)
 
     G_APPLICATION_CLASS(class)->activate = data_usage_app_activate;
     G_APPLICATION_CLASS(class)->open = data_usage_app_open;
-    
 }
 
 DataUsageApp *data_usage_app_new(void)
@@ -144,13 +143,15 @@ int data_usage_app_update_usage(DataUsageApp *app)
     *values = priv->mdataUsage->snapshot.recieved - priv->mdataUsage->used.recieved;
     *(values + 1) = priv->mdataUsage->snapshot.sent - priv->mdataUsage->used.sent;
     *(values + 2) = priv->max_usage;
-   gint notify = data_usage_app_window_update_wids(win, values);
- if(priv->notified ==1) return 1;
+    gint notify = data_usage_app_window_update_wids(win, values);
+    if (priv->notified == 1)
+        return 1;
 
-   if(notify == -1){
-       notify_end(app,*values);
-       priv->notified=1;
-   }
+    if (notify == -1)
+    {
+        notify_end(app, *values);
+        priv->notified = 1;
+    }
 
     return 1;
 }
@@ -161,25 +162,25 @@ void notify_end(DataUsageApp *app, uint64_t usage)
     GFile *file;
     GFileIcon *icon;
     char buffer[256], buf[10];
-   to_human_readable(usage, buf);
-   sprintf(buffer, "You have used %s of amount data", buf);
-   notification = g_notification_new ("Data usage warning");
-   g_notification_set_body(notification, buffer);
+    to_human_readable(usage, buf);
+    sprintf(buffer, "You have used %s of amount data", buf);
+    notification = g_notification_new("Data usage warning");
+    g_notification_set_body(notification, buffer);
     file = g_file_new_for_path("leo.png");
-    icon = (GFileIcon*)g_file_icon_new (file);
-    g_notification_set_icon (notification, G_ICON (icon));
-    g_object_unref (icon);
-g_object_unref (file);
+    icon = (GFileIcon *)g_file_icon_new(file);
+    g_notification_set_icon(notification, G_ICON(icon));
+    g_object_unref(icon);
+    g_object_unref(file);
 
-//GApplication *application = g_application_new("com.krc.datausageapp", G_APPLICATION_NON_UNIQUE );
-gboolean g = g_application_get_is_registered((GApplication *)app);
-if(g) {
-g_application_send_notification ((GApplication *)app, "data-usage-warning", notification);
-}
+    //GApplication *application = g_application_new("com.krc.datausageapp", G_APPLICATION_NON_UNIQUE );
+    gboolean g = g_application_get_is_registered((GApplication *)app);
+    if (g)
+    {
+        g_application_send_notification((GApplication *)app, "data-usage-warning", notification);
+    }
 
-//
-g_object_unref (notification);
-
+    //
+    g_object_unref(notification);
 };
 
 void set_max(uint64_t max, DataUsageAppPrivate *priv)
@@ -194,17 +195,19 @@ void init_start_stats(DataUsageApp *app)
     mbs_poll_interfaces(priv->mdataUsage, &priv->mdataUsage->used);
 }
 
-void update_max(DataUsageApp *app,gpointer win, uint64_t max){
-      DataUsageAppPrivate *priv;
+void update_max(DataUsageApp *app, gpointer win, uint64_t max)
+{
+    DataUsageAppPrivate *priv;
     priv = data_usage_app_get_instance_private(app);
-   set_max(max, priv);
-DataUsageAppWindow*window = (DataUsageAppWindow *)win;
-data_usage_app_window_open(win, priv->max_usage);
-
+    set_max(max, priv);
+    DataUsageAppWindow *window = (DataUsageAppWindow *)win;
+    data_usage_app_window_open(win, priv->max_usage);
 };
 
-void data_usage_app_reset_stats(DataUsageApp *app){
-     DataUsageAppPrivate *priv;
+void data_usage_app_reset_stats(DataUsageApp *app)
+{
+    DataUsageAppPrivate *priv;
     priv = data_usage_app_get_instance_private(app);
-  mbs_poll_interfaces(priv->mdataUsage, &(priv->mdataUsage->used));
+    mbs_poll_interfaces(priv->mdataUsage, &(priv->mdataUsage->used));
+    priv->notified = 0;
 }
