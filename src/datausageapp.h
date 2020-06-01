@@ -10,4 +10,6 @@ void item_clicked_app(void);
 void open_full_window(void);
 int data_usage_app_update_usage(DataUsageApp *app);
 void init_start_stats(DataUsageApp *app);
+void notify_end(DataUsageApp *app, uint64_t flag);
+void update_max(DataUsageApp *app,gpointer pointer, uint64_t max);
 #endif
