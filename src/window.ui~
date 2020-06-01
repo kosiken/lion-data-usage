@@ -320,7 +320,7 @@
             <property name="spacing">22</property>
             <property name="homogeneous">True</property>
             <child>
-              <object class="GtkEntry">
+              <object class="GtkEntry" id="app_max">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="tooltip_text">Set the max usage in MB</property>
@@ -337,6 +337,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <signal name="clicked" handler="set_app_max" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>

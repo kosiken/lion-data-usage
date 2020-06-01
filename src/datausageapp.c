@@ -202,3 +202,9 @@ DataUsageAppWindow*window = (DataUsageAppWindow *)win;
 data_usage_app_window_open(win, priv->max_usage);
 
 };
+
+void data_usage_app_reset_stats(DataUsageApp *app){
+     DataUsageAppPrivate *priv;
+    priv = data_usage_app_get_instance_private(app);
+  mbs_poll_interfaces(priv->mdataUsage, &(priv->mdataUsage->used));
+}

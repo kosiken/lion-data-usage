@@ -29,6 +29,8 @@ static void full_clicked(GtkMenuItem *item, gpointer user_data)
     open_full_window();
 }
 
+
+
 DataUsageAppWindow *data_usage_app_window_new(DataUsageApp *app)
 {
     return g_object_new(DATA_USAGE_APP_WINDOW_TYPE, "application", app, NULL);
@@ -43,6 +45,13 @@ static void data_usage_app_window_init(DataUsageAppWindow *win)
     gchar *basename;
     GtkWidget *sent, *grid, *recieved, *label, *label2;
 };
+static void reset_clicked(GtkButton *button, DataUsageAppWindow *win)
+{
+     DataUsageAppWindowPrivate *priv;
+    priv = data_usage_app_window_get_instance_private(win);
+   data_usage_app_reset_stats(priv->app);
+}
+
 static void set_app_max(GtkButton *button, DataUsageAppWindow *win) {
     const gchar* text;
     DataUsageAppWindowPrivate *priv;
@@ -65,6 +74,8 @@ static void data_usage_app_window_class_init(DataUsageAppWindowClass *class)
     gtk_widget_class_bind_template_callback(GTK_WIDGET_CLASS(class), item_clicked);
     gtk_widget_class_bind_template_callback(GTK_WIDGET_CLASS(class), full_clicked);
  gtk_widget_class_bind_template_callback(GTK_WIDGET_CLASS(class), set_app_max);
+  gtk_widget_class_bind_template_callback(GTK_WIDGET_CLASS(class), reset_clicked);
+
     gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(class), DataUsageAppWindow, balance);
     gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(class), DataUsageAppWindow, recieved);
     gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(class), DataUsageAppWindow, sent);

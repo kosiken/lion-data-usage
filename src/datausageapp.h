@@ -12,4 +12,5 @@ int data_usage_app_update_usage(DataUsageApp *app);
 void init_start_stats(DataUsageApp *app);
 void notify_end(DataUsageApp *app, uint64_t flag);
 void update_max(DataUsageApp *app,gpointer pointer, uint64_t max);
+void data_usage_app_reset_stats(DataUsageApp *app);
 #endif
