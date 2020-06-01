@@ -64,7 +64,11 @@ data_usage_app_activate(GApplication *app)
 
     init_start_stats(DATA_USAGE_APP(app));
     data_usage_app_window_set_app((DataUsageApp *)app, win);
-
+GFile *pic =g_file_new_for_uri("file:///home/kosy/DataUsage/lkeo.png");
+if(pic == NULL) {
+    g_print("%s", "oh noo");
+}
+gtk_window_set_icon_from_file(win, "/usr/share/datausage/resources/leo.png", NULL);
     data_usage_app_window_open(win, (uint64_t)MAX_DATA_USE);
     gtk_window_present(GTK_WINDOW(win));
 }
@@ -89,6 +93,12 @@ void item_clicked_app()
     DataUsageAboutWindow *window;
     const gchar *title = "lion";
     window = data_usage_about_window_new(title);
+    gtk_window_set_icon_from_file( window,"/usr/share/datausage/resources/leo.png", NULL);
+    // 
+    GdkPixbuf *pic = gdk_pixbuf_new_from_resource("/com/krc/datausageapp/leo.png", NULL);
+gtk_about_dialog_set_logo((GtkAboutDialog*)window,pic );
+
+    // gtk_window_set_default_icon_list()
     gtk_window_present(GTK_WINDOW(window));
 }
 void open_full_window()

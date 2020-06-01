@@ -113,7 +113,7 @@ gint data_usage_app_window_update_wids(DataUsageAppWindow *win, uint64_t *values
         gdouble lev = (double)rec / (double)max;
         double j =7/6;
         
-        g_print("%f\n", lev);
+       // g_print("%f\n", lev);
         gtk_level_bar_set_value((GtkLevelBar *)priv->level_bar, lev);
         // g_notification_new
     }

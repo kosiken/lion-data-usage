@@ -19,14 +19,14 @@ int get_default_interface(char **ifa_name)
 
     if (getifaddrs(&ifa0) == -1)
     {
-        // printf("%s", "*ifkka_name");
+        
         perror("error getting ifaddress");
 
         return -1;
     }
     for (ifa = ifa0; ifa != NULL; ifa = ifa->ifa_next)
     {
-        // printf("%s", "*ihfa_name");
+      
         const unsigned short sa_family = ifa->ifa_addr->sa_family;
         const int ifa_running = ifa->ifa_flags & IFF_RUNNING;
 
@@ -38,10 +38,8 @@ int get_default_interface(char **ifa_name)
 
         if ((strcmp("lo", ifa->ifa_name) == 0) || !ifa_running)
             continue;
-        //  printf("%s", "*ifa_name");
-
-        // *ifa_name= (char*)malloc(strlen(ifa->ifa_name) * sizeof(char));
-        // ifa_name= (char**)malloc(strlen(ifa->ifa_name) * sizeof(char));
+    
+    
         *ifa_name = strdup(ifa->ifa_name);
 
         freeifaddrs(ifa0);
