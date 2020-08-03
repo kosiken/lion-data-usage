@@ -16,7 +16,9 @@ struct _DataUsageAppWindowPrivate
     GtkWidget *level_bar;
     GtkWidget *sent, *recieved;
     GtkWidget *balance;
+    GtkWidget *status;
     GtkWidget* app_max;
+    GtkWidget* spinner;
     DataUsageApp *app;
 };
 static void item_clicked(GtkButton *button, gpointer user_data)
@@ -70,7 +72,7 @@ static void set_app_max(GtkButton *button, DataUsageAppWindow *win) {
 static void data_usage_app_window_class_init(DataUsageAppWindowClass *class)
 {
     gtk_widget_class_set_template_from_resource(GTK_WIDGET_CLASS(class),
-                                                "/com/krc/datausageapp/window.ui");
+                                                "/com/krc/datausageapp/datausage.ui");
     gtk_widget_class_bind_template_callback(GTK_WIDGET_CLASS(class), item_clicked);
     gtk_widget_class_bind_template_callback(GTK_WIDGET_CLASS(class), full_clicked);
  gtk_widget_class_bind_template_callback(GTK_WIDGET_CLASS(class), set_app_max);
@@ -79,6 +81,9 @@ static void data_usage_app_window_class_init(DataUsageAppWindowClass *class)
     gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(class), DataUsageAppWindow, balance);
     gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(class), DataUsageAppWindow, recieved);
     gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(class), DataUsageAppWindow, sent);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(class), DataUsageAppWindow, status);
+    gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(class), DataUsageAppWindow, spinner);
+
     gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(class), DataUsageAppWindow, level_bar);
      gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(class), DataUsageAppWindow, app_max);
 }
@@ -111,9 +116,7 @@ gint data_usage_app_window_update_wids(DataUsageAppWindow *win, uint64_t *values
     if (rec < max)
     {
         gdouble lev = (double)rec / (double)max;
-        double j =7/6;
-        
-       // g_print("%f\n", lev);
+
         gtk_level_bar_set_value((GtkLevelBar *)priv->level_bar, lev);
         // g_notification_new
     }
@@ -123,7 +126,8 @@ gint data_usage_app_window_update_wids(DataUsageAppWindow *win, uint64_t *values
 
     gtk_label_set_text((GtkLabel *)priv->sent, buffer);
     to_human_readable(rec, buffer);
-
+    gtk_spinner_stop ((GtkSpinner *)priv->spinner);
+     gtk_label_set_text((GtkLabel *)priv->status, "");
     gtk_label_set_text((GtkLabel *)priv->recieved, buffer);
     return ret;
 }

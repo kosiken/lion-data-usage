@@ -15,6 +15,7 @@ struct _DataUsageAppPrivate
     u_int64_t max_usage;
     gint notified;
     GtkWidget *app_max;
+    gint initialized;
 };
 // G_DEFINE_TYPE (DataUsageApp, data_usage_app,GTK_TYPE_APPLICATION)
 G_DEFINE_TYPE_WITH_PRIVATE(DataUsageApp, data_usage_app, GTK_TYPE_APPLICATION);
@@ -143,6 +144,7 @@ int data_usage_app_update_usage(DataUsageApp *app)
         win = DATA_USAGE_APP_WINDOW(windows->data);
     else
         return 0;
+if (priv->initialized == 0) return 1;
     if (mbs_poll_interfaces(priv->mdataUsage, &(priv->mdataUsage->snapshot)) == -1)
     {
         g_printerr("%s", "err");
@@ -201,7 +203,12 @@ void init_start_stats(DataUsageApp *app)
 {
     DataUsageAppPrivate *priv;
     priv = data_usage_app_get_instance_private(app);
-    get_default_interface(&(priv->mdataUsage->ifa_name));
+    if(get_default_interface(&(priv->mdataUsage->ifa_name))== -1)
+    {
+        priv->initialized = 0;
+        return;
+    }
+    else priv->initialized = 1;
     mbs_poll_interfaces(priv->mdataUsage, &priv->mdataUsage->used);
 }
 
@@ -221,3 +228,4 @@ void data_usage_app_reset_stats(DataUsageApp *app)
     mbs_poll_interfaces(priv->mdataUsage, &(priv->mdataUsage->used));
     priv->notified = 0;
 }
+

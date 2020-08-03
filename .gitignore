@@ -1,2 +1,3 @@
 .vscode
 /src/lion
+.src/resources.c
